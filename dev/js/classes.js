@@ -1,24 +1,29 @@
 import { ctx, canvas } from "./canvas";
 
 export class GameObject {
-    constructor() {
-        this.dx = 1
-        this.dy = 0
-        this.width = 50
-        this.height = 50
-        this.x = canvas.width / 2
-        this.y = canvas.height / 2 - this.height/2
+    constructor(x,y,w,h) {
+        this.width = w
+        this.height = h
+        this.x = x
+        this.y = y
     }
 
     draw() {
-        this.x += this.dx
-        this.y += this.dy
         ctx.beginPath();
         ctx.rect(this.x, this.y, this.width, this.height);
         ctx.stroke();
-
-        if(this.x > canvas.width){
-            this.x = -this.height
-        }
     }
+}
+
+export class UI extends GameObject {
+    constructor(x,y,w,h){
+        super(x,y,w,h);
+    };
+};
+
+export class BoardTile extends GameObject {
+        constructor(x,y,w,h,tile){
+        super(x,y,w,h);
+        tile: tile
+    };
 }
