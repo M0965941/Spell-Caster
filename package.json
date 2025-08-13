@@ -1,0 +1,15 @@
+{
+    "name": "canvas-template-repository",
+    "typle": "module",
+    "main": "dev/js/main.js",
+    "scripts": {
+      "dev": "vite",
+      "test": "vite ./test",
+      "build": "vite build"
+    },
+    "devDependencies": {
+      "vite": "latest",
+      "js13k-vite-plugins": "latest"
+    }
+  }
+  
