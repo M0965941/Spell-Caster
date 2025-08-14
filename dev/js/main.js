@@ -1,10 +1,7 @@
 import { canvas, ctx } from "./canvas";
 import { UIArray } from "./UI";
 import { grid } from "./board";
-
-canvas.addEventListener('mouseup', (e) => {
-  console.log('Do something with the left mouse button');
-});
+import { mouse } from "./mouse";
 
 animate();
 
@@ -19,4 +16,6 @@ function animate() {
   for (const g of grid) {
     g.draw();
   }
+
+  console.log(mouse)
 }

@@ -6,7 +6,7 @@ const BOARDSIZE = 3;
 const BOARDWIDTH = TILEWIDTH * BOARDSIZE
 
 const XINITIAL = canvas.width/2 - BOARDWIDTH/2;
-const YINITIAL = 450;
+const YINITIAL = 430;
 
 let j = 0;
 
