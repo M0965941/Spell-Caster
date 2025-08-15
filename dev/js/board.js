@@ -1,8 +1,6 @@
 import { BoardTile } from "./classes";
 import { canvas } from "./canvas";
-
-export const TILEWIDTH = 50;
-export const grid = [];
+import { TILEWIDTH, GAMESTATE } from "./global";
 
 const BOARDSIZE = 3;
 export const BOARDWIDTH = TILEWIDTH * BOARDSIZE
@@ -16,6 +14,7 @@ for (let i = 0; i < Math.pow(BOARDSIZE, 2); i++) {
     if (i % BOARDSIZE == 0) { j = 0; }
     let x = XINITIAL + (j * TILEWIDTH)
     let y = YINITIAL + (Math.floor(i / BOARDSIZE) * TILEWIDTH)
-    grid.push(new BoardTile(x, y, 50, 50, { 'letter': '', 'points': 0 , id: -1},i));
+    GAMESTATE.board.push(new BoardTile(x, y, TILEWIDTH, TILEWIDTH, i));
+    
     j++
 };

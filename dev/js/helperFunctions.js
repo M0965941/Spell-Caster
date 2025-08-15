@@ -22,23 +22,23 @@ export function circleRectCollision(cx, cy, radius, rx, ry, rw, rh) {
   return false;
 };
 
-export function rectRectCollision(r1x, r1y, r1w, r1h, r2x, r2y, r2w, r2h) {
+export function rectRectCollision(rect1,rect2) {
 
-  if (r1x + r1w >= r2x &&
-    r1x <= r2x + r2w &&
-    r1y + r1h >= r2y &&
-    r1y <= r2y + r2h) {
+  if (rect1.x + rect1.width >= rect2.x &&
+    rect1.x <= rect2.x + rect2.width &&
+    rect1.y + rect1.height >= rect2.y &&
+    rect1.y <= rect2.y + rect2.height) {
     return true;
   };
 
   return false;
 };
 
-export function pointRectCollision(point, rx, ry, rw, rh) {
-  if (point.x >= rx && 
-    point.x <= rx + rw &&  
-    point.y >= ry &&       
-    point.y <= ry + rh) {
+export function pointRectCollision(point, target) {
+  if (point.x >= target.x && 
+    point.x <= target.x + target.width &&  
+    point.y >= target.y &&       
+    point.y <= target.y + target.height) {
     return true;
   }
 
