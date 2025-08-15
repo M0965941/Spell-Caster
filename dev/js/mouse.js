@@ -12,6 +12,7 @@ canvas.addEventListener('mouseup', (e) => {
     GAMESTATE.mouse.lmb = 0;
     GAMESTATE.selectedTile = null;
     console.log(GAMESTATE.board);
+    console.log(GAMESTATE.activeWords);
 });
 
 canvas.addEventListener('mousedown', (e) => {GAMESTATE.mouse.lmb = 1});

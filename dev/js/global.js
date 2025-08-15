@@ -1,4 +1,3 @@
-export const TILEWIDTH = 50;
 export const GAMESTATE = {
     board: [],
     mouse: {
@@ -8,5 +7,7 @@ export const GAMESTATE = {
     },
     playerHand: [],
     selectedTile: null,
-    boardDimensions: {x:0,y:0,width:0,height:0}
+    boardSize: 3,
+    tilewidth: 50,
+    activeWords: [],
 };

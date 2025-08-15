@@ -31,6 +31,7 @@ export class BoardTile extends GameObject {
         this.tile = null;
         this.placeable = 1;
         this.id = id;
+        this.checked = { h: 0, v: 0 }
     };
     draw() {
         ctx.save();
@@ -57,12 +58,11 @@ export class BoardTile extends GameObject {
             if (GAMESTATE.selectedTile) {
                 if (GAMESTATE.mouse.lmb == 1 && GAMESTATE.selectedTile.id == this.tile.id) {
                     this.tile = null
-                }
-
-            }
-        }
-    }
-}
+                };
+            };
+        };
+    };
+};
 
 export class PlayerTile extends GameObject {
     constructor(x, y, w, h, tile) {
@@ -72,7 +72,6 @@ export class PlayerTile extends GameObject {
         this.yo = y;
         this.active = 1;
         this.letter = tile.letter;
-        this.points = tile.points;
         this.linkedID = -1;
     };
 
@@ -83,7 +82,13 @@ export class PlayerTile extends GameObject {
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.restore();
 
-        if (pointRectCollision(GAMESTATE.mouse, this) && GAMESTATE.selectedTile == null) {
+        ctx.save();
+        ctx.fillStyle = 'black';
+        ctx.font = "20px serif";
+        ctx.fillText(this.letter, this.x+this.width/3, this.y+this.height/1.5);
+        ctx.restore();
+
+        if (pointRectCollision(GAMESTATE.mouse, this) && GAMESTATE.selectedTile == null && this.active) {
             this.color = 'rgba(255, 234, 0, 0.75)';
             if (GAMESTATE.mouse.lmb) {
                 GAMESTATE.selectedTile = structuredClone(this);
@@ -112,7 +117,7 @@ export class PlayerTile extends GameObject {
                 }
             };
         };
-        
+
         if (this.linkedID == -1 && GAMESTATE.mouse.lmb == 0) {
             this.x = this.xo;
             this.y = this.yo;
