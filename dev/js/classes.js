@@ -1,6 +1,6 @@
 import { ctx } from "./canvas";
 import { GAMESTATE } from "./global";
-import { pointRectCollision, rectRectCollision } from "./helperFunctions";
+import { pointRectCollision } from "./helperFunctions";
 
 export class GameObject {
     constructor(x, y, w, h) {

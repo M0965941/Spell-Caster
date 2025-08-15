@@ -10,4 +10,7 @@ export const GAMESTATE = {
     boardSize: 3,
     tilewidth: 50,
     activeWords: [],
+    pouch: [],
+    discardPouch: [],
+    maximumHand: 5
 };

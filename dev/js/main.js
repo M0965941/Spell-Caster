@@ -65,8 +65,5 @@ function animate() {
   for (const h of GAMESTATE.playerHand) {
     h.draw();
   };
-
-
-  console.log(GAMESTATE.activeWords);
 };
 animate();
