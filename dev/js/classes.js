@@ -31,7 +31,7 @@ export class BoardTile extends GameObject {
         this.tile = null;
         this.placeable = 1;
         this.id = id;
-        this.checked = { h: 0, v: 0 }
+        this.checked = { h: 0, v: 0 };
     };
     draw() {
         ctx.save();
@@ -72,6 +72,7 @@ export class PlayerTile extends GameObject {
         this.yo = y;
         this.Movable = 1;
         this.letter = tile.letter;
+        this.points = tile.points
         this.linkedID = -1;
         this.validWord = 0;
     };
@@ -86,7 +87,7 @@ export class PlayerTile extends GameObject {
         ctx.save();
         ctx.fillStyle = 'black';
         ctx.font = "20px serif";
-        ctx.fillText(this.letter, this.x+this.width/3, this.y+this.height/1.5);
+        ctx.fillText(this.letter, this.x + this.width / 3, this.y + this.height / 1.5);
         ctx.restore();
 
         if (pointRectCollision(GAMESTATE.mouse, this) && GAMESTATE.selectedTile == null && this.Movable) {
@@ -96,7 +97,11 @@ export class PlayerTile extends GameObject {
                 GAMESTATE.selectedTile.draw = this.draw;
             }
         } else {
-            this.color = 'rgba(255, 255, 255, 1)';
+            if (this.validWord) {
+                this.color = 'rgba(0, 255, 51, 1)';
+            } else {
+                this.color = 'rgba(255, 255, 255, 1)';
+            }
         }
 
         if (GAMESTATE.selectedTile !== null) {

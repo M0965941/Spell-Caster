@@ -14,5 +14,6 @@ export const GAMESTATE = {
     discardPouch: [],
     maximumHand: 5,
     validWords: [],
-    invalidWords: []
+    invalidWords: [],
+    points: 0,
 };
