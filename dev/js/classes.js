@@ -70,16 +70,13 @@ export class PlayerTile extends GameObject {
         this.id = tile.id;
         this.xo = x;
         this.yo = y;
-        this.active = 1;
+        this.Movable = 1;
         this.letter = tile.letter;
         this.linkedID = -1;
         this.validWord = 0;
     };
 
     draw() {
-        if(this.validWord){
-           this.color = 'rgba(0, 255, 17, 0.75)';  
-        }
         ctx.save();
         ctx.strokeStyle = this.color
         ctx.fillStyle = this.color;
@@ -92,7 +89,7 @@ export class PlayerTile extends GameObject {
         ctx.fillText(this.letter, this.x+this.width/3, this.y+this.height/1.5);
         ctx.restore();
 
-        if (pointRectCollision(GAMESTATE.mouse, this) && GAMESTATE.selectedTile == null && this.active) {
+        if (pointRectCollision(GAMESTATE.mouse, this) && GAMESTATE.selectedTile == null && this.Movable) {
             this.color = 'rgba(255, 234, 0, 0.75)';
             if (GAMESTATE.mouse.lmb) {
                 GAMESTATE.selectedTile = structuredClone(this);
