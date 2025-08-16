@@ -1,4 +1,4 @@
-export const GAMESTATE = {
+export const GAME = {
     board: [],
     mouse: {
         x: 0,

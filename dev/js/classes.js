@@ -1,5 +1,5 @@
 import { ctx } from "./canvas";
-import { GAMESTATE } from "./global";
+import { GAME } from "./global";
 import { pointRectCollision } from "./helperFunctions";
 
 export class GameObject {
@@ -40,7 +40,7 @@ export class BoardTile extends GameObject {
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.restore();
 
-        if (GAMESTATE.selectedTile !== null && pointRectCollision(GAMESTATE.mouse, this) && (this.tile == null || this.tile.active == 1)) {
+        if (GAME.selectedTile !== null && pointRectCollision(GAME.mouse, this) && (this.tile == null || this.tile.active == 1)) {
             this.color = 'red'
         } else {
             this.color = 'black'
@@ -51,12 +51,12 @@ export class BoardTile extends GameObject {
         }
 
         if (this.tile != null) {
-            if (GAMESTATE.mouse.lmb == 0) {
+            if (GAME.mouse.lmb == 0) {
                 this.placeable = 0;
             }
 
-            if (GAMESTATE.selectedTile) {
-                if (GAMESTATE.mouse.lmb == 1 && GAMESTATE.selectedTile.id == this.tile.id) {
+            if (GAME.selectedTile) {
+                if (GAME.mouse.lmb == 1 && GAME.selectedTile.id == this.tile.id) {
                     this.tile = null
                 };
             };
@@ -90,11 +90,11 @@ export class PlayerTile extends GameObject {
         ctx.fillText(this.letter, this.x + this.width / 3, this.y + this.height / 1.5);
         ctx.restore();
 
-        if (pointRectCollision(GAMESTATE.mouse, this) && GAMESTATE.selectedTile == null && this.Movable) {
+        if (pointRectCollision(GAME.mouse, this) && GAME.selectedTile == null && this.Movable) {
             this.color = 'rgba(255, 234, 0, 0.75)';
-            if (GAMESTATE.mouse.lmb) {
-                GAMESTATE.selectedTile = structuredClone(this);
-                GAMESTATE.selectedTile.draw = this.draw;
+            if (GAME.mouse.lmb) {
+                GAME.selectedTile = structuredClone(this);
+                GAME.selectedTile.draw = this.draw;
             }
         } else {
             if (this.validWord) {
@@ -104,19 +104,19 @@ export class PlayerTile extends GameObject {
             }
         }
 
-        if (GAMESTATE.selectedTile !== null) {
-            if (GAMESTATE.selectedTile.id === this.id) {
+        if (GAME.selectedTile !== null) {
+            if (GAME.selectedTile.id === this.id) {
                 this.color = 'rgba(225,225,225,0.25)';
 
-                this.x = GAMESTATE.mouse.x - this.width / 2;
-                this.y = GAMESTATE.mouse.y - this.height / 2;
+                this.x = GAME.mouse.x - this.width / 2;
+                this.y = GAME.mouse.y - this.height / 2;
 
-                let boardTile = GAMESTATE.board.find((e) => pointRectCollision(GAMESTATE.mouse, e) && e.placeable);
+                let boardTile = GAME.board.find((e) => pointRectCollision(GAME.mouse, e) && e.placeable);
 
                 if (boardTile) {
                     this.x = boardTile.x;
                     this.y = boardTile.y;
-                    GAMESTATE.board[boardTile.id].tile = GAMESTATE.selectedTile;
+                    GAME.board[boardTile.id].tile = GAME.selectedTile;
                     this.linkedID = boardTile.id;
                 } else {
                     this.linkedID = -1;
@@ -124,7 +124,7 @@ export class PlayerTile extends GameObject {
             };
         };
 
-        if (this.linkedID == -1 && GAMESTATE.mouse.lmb == 0) {
+        if (this.linkedID == -1 && GAME.mouse.lmb == 0) {
             this.x = this.xo;
             this.y = this.yo;
             this.validWord = 0;

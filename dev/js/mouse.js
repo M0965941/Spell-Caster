@@ -1,5 +1,5 @@
 import { canvas } from "./canvas";
-import { GAMESTATE } from "./global";
+import { GAME } from "./global";
 
 
 export let mouse = {
@@ -9,14 +9,14 @@ export let mouse = {
 }
 
 canvas.addEventListener('mouseup', (e) => {
-    GAMESTATE.mouse.lmb = 0;
-    GAMESTATE.selectedTile = null;
+    GAME.mouse.lmb = 0;
+    GAME.selectedTile = null;
 });
 
-canvas.addEventListener('mousedown', (e) => {GAMESTATE.mouse.lmb = 1});
+canvas.addEventListener('mousedown', (e) => {GAME.mouse.lmb = 1});
 
 canvas.addEventListener('mousemove', (e) => {
     let rect = canvas.getBoundingClientRect();
-    GAMESTATE.mouse.x = e.clientX - rect.left;
-    GAMESTATE.mouse.y = e.clientY - rect.top;
+    GAME.mouse.x = e.clientX - rect.left;
+    GAME.mouse.y = e.clientY - rect.top;
 });

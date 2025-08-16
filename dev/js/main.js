@@ -3,33 +3,33 @@ import { UIArray } from "./UI";
 import { } from "./playerHand"
 import { } from "./board";
 import { } from "./mouse";
-import { GAMESTATE } from "./global";
+import { GAME } from "./global";
 import { wordList } from "./wordslist";
 
 function checkBoard() {
-  for (let i = 0; i < GAMESTATE.board.length; i++) {
-    if (GAMESTATE.board[i].tile) {
-      if (GAMESTATE.board[i].checked.h == 0) {
-        wordCheck('h', i)
-      }
+  for (let i = 0; i < GAME.board.length; i++) {
+    if (GAME.board[i].tile) {
+      if (GAME.board[i].checked.h == 0) {
+        wordCheck('h', i);
+      };
 
-      if (GAMESTATE.board[i].checked.v == 0) {
-        wordCheck('v', i)
-      }
-    }
+      if (GAME.board[i].checked.v == 0) {
+        wordCheck('v', i);
+      };
+    };
   };
 
-  GAMESTATE.points = 0;
-  if (GAMESTATE.wordsToCheck.length > 0) {
-    for (const c of GAMESTATE.wordsToCheck) {
+  GAME.points = 0;
+  if (GAME.wordsToCheck.length > 0) {
+    for (const c of GAME.wordsToCheck) {
       if (wordList.includes(`|${c.w.toLowerCase()}|`)) {
-        GAMESTATE.validWords.push(c.w)
+        GAME.validWords.push(c.w)
         for (const j of c.p) {
 
-          let o = GAMESTATE.playerHand.find((e) => e.linkedID == j);
+          let o = GAME.playerHand.find((e) => e.linkedID == j);
           if (o) {
             o.validWord = 1
-            GAMESTATE.points += o.points
+            GAME.points += o.points
           }
         }
       }
@@ -40,18 +40,18 @@ function checkBoard() {
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   requestAnimationFrame(animate);
-  GAMESTATE.wordsToCheck = [];
-  GAMESTATE.validWords = [];
+  GAME.wordsToCheck = [];
+  GAME.validWords = [];
   for (const i of UIArray) {
     i.draw();
   }
   checkBoard();
-  for (const g of GAMESTATE.board) {
+  for (const g of GAME.board) {
     g.draw();
     g.checked.h = 0;
     g.checked.v = 0;
   };
-  for (const h of GAMESTATE.playerHand) {
+  for (const h of GAME.playerHand) {
     h.draw();
   };
 };
@@ -64,31 +64,31 @@ function wordCheck(direction, i) {
 
   if (direction == 'h') {
     iterable = 1;
-    upperBound = GAMESTATE.boardSize * (Math.floor(GAMESTATE.board[i].id / (GAMESTATE.boardSize) + 1));
+    upperBound = GAME.boardSize * (Math.floor(GAME.board[i].id / (GAME.boardSize) + 1));
   } else if (direction == 'v') {
-    iterable = GAMESTATE.boardSize;
-    upperBound = Math.pow(GAMESTATE.boardSize, 2);
+    iterable = GAME.boardSize;
+    upperBound = Math.pow(GAME.boardSize, 2);
   }
 
-  GAMESTATE.board[i].checked[direction] = 1;
+  GAME.board[i].checked[direction] = 1;
 
   for (let j = i; j < upperBound; j += iterable) {
-    if (GAMESTATE.board[j]) {
-      if (GAMESTATE.board[j].tile) {
-        myString.w += GAMESTATE.board[j].tile.letter;
-        myString.p.push(GAMESTATE.board[j].id);
-        myString.pts += GAMESTATE.board[j].tile.points
-        GAMESTATE.board[j].checked[direction] = 1;
+    if (GAME.board[j]) {
+      if (GAME.board[j].tile) {
+        myString.w += GAME.board[j].tile.letter;
+        myString.p.push(GAME.board[j].id);
+        myString.pts += GAME.board[j].tile.points
+        GAME.board[j].checked[direction] = 1;
       } else { break }
     }
   }
 
   if (myString.w.length >= 2) {
-    GAMESTATE.wordsToCheck.push(myString)
+    GAME.wordsToCheck.push(myString)
   }
 
   if (myString.w.length < 2) {
-    let o = GAMESTATE.playerHand.find((e) => e.linkedID == i);
+    let o = GAME.playerHand.find((e) => e.linkedID == i);
     if (o) {
       o.validWord = 0
     }

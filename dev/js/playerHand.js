@@ -1,5 +1,5 @@
 import { PlayerTile } from "./classes";
-import { GAMESTATE } from "./global";
+import { GAME } from "./global";
 
 const LETTERS = [
     { 'letter': 'A', 'points': 1, 'dist': 9 },
@@ -39,18 +39,18 @@ for (const t of LETTERS) {
     }
 }
 
-GAMESTATE.pouch = tiles
+GAME.pouch = tiles
     .map(value => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value);
 
-for (let i = 0; i < GAMESTATE.maximumHand; i++) {
-    GAMESTATE.playerHand.push(new PlayerTile(
+for (let i = 0; i < GAME.maximumHand; i++) {
+    GAME.playerHand.push(new PlayerTile(
         50 + (60 * i),
         590,
         50,
         50,
-        GAMESTATE.pouch[0]
+        GAME.pouch[0]
     ))
-    GAMESTATE.pouch.shift();
+    GAME.pouch.shift();
 }
