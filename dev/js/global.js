@@ -9,8 +9,10 @@ export const GAMESTATE = {
     selectedTile: null,
     boardSize: 3,
     tilewidth: 50,
-    activeWords: [],
+    wordsToCheck: [],
     pouch: [],
     discardPouch: [],
-    maximumHand: 5
+    maximumHand: 5,
+    validWords: [],
+    invalidWords: []
 };

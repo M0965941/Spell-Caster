@@ -73,9 +73,13 @@ export class PlayerTile extends GameObject {
         this.active = 1;
         this.letter = tile.letter;
         this.linkedID = -1;
+        this.validWord = 0;
     };
 
     draw() {
+        if(this.validWord){
+           this.color = 'rgba(0, 255, 17, 0.75)';  
+        }
         ctx.save();
         ctx.strokeStyle = this.color
         ctx.fillStyle = this.color;
@@ -121,6 +125,7 @@ export class PlayerTile extends GameObject {
         if (this.linkedID == -1 && GAMESTATE.mouse.lmb == 0) {
             this.x = this.xo;
             this.y = this.yo;
+            this.validWord = 0;
         };
     };
 };
