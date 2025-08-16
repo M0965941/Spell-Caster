@@ -1,6 +1,6 @@
 import { canvas, ctx } from "./canvas";
 import { UIArray } from "./UI";
-import { } from "./playerHand"
+import { } from "./playerHand";
 import { } from "./board";
 import { } from "./mouse";
 import { GAME } from "./global";
@@ -32,7 +32,7 @@ function checkBoard() {
             GAME.points += o.points
           }
         }
-      }
+      } else {GAME.invalidWords.push(c.w)}
     }
   }
 };
@@ -42,6 +42,7 @@ function animate() {
   requestAnimationFrame(animate);
   GAME.wordsToCheck = [];
   GAME.validWords = [];
+  GAME.invalidWords = [];
   for (const i of UIArray) {
     i.draw();
   }
