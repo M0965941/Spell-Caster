@@ -41,12 +41,11 @@ function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   requestAnimationFrame(animate);
   GAME.wordsToCheck = [];
-  GAME.validWords = [];
-  GAME.invalidWords = [];
+
+  checkBoard();
   for (const i of UIArray) {
     i.draw();
   }
-  checkBoard();
   for (const g of GAME.board) {
     g.draw();
     g.checked.h = 0;
@@ -55,6 +54,8 @@ function animate() {
   for (const h of GAME.playerHand) {
     h.draw();
   };
+    GAME.validWords = [];
+  GAME.invalidWords = [];
 };
 animate();
 
