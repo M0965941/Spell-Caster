@@ -29,20 +29,21 @@ function checkBoard() {
     }
 
     if (GAMESTATE.board[i].tile && GAMESTATE.board[i].checked.v == 0) {
-      let myString = '';
+      let myString = { w: '', p: [] };
       GAMESTATE.board[i].checked.v = 1
       let upperBound = Math.pow(GAMESTATE.boardSize, 2);
 
       for (let j = i; j < upperBound; j += GAMESTATE.boardSize) {
         if (GAMESTATE.board[j]) {
           if (GAMESTATE.board[j].tile) {
-            myString += GAMESTATE.board[j].tile.letter;
+            myString.w += GAMESTATE.board[j].tile.letter;
+            myString.p.push(GAMESTATE.board[j].id)
             GAMESTATE.board[j].checked.v = 1;
           } else { break }
         }
       }
 
-      if (myString.length >= 2) {
+      if (myString.w.length >= 2) {
         GAMESTATE.wordsToCheck.push(myString)
       }
     }
