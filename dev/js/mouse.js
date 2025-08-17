@@ -9,7 +9,6 @@ export let mouse = {
 
 canvas.addEventListener('mouseup', (e) => {
     GAME.mouse.lmb = 0;
-    console.log(GAME.board)
     if (GAME.selectedTile !== null) {
         for (const b of GAME.board) {
             if (b.isMouseOver && b.tile == null) {

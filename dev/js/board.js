@@ -6,15 +6,15 @@ export function drawBoard() {
         if (g.tile) {
             checkTiles(g);
             g.tile.draw();
-        }
+        };
     };
 };
 
 function checkTiles(g) {
-    let wordToCheck = { word: g.tile.letter, pos: [g.id] }
+    let wordToCheck = { word: g.tile.letter, pos: [g.id] };
     if (g.checked.h == 0) {
-        console.log(recursiveRightCheck(wordToCheck))
-    }
+        recursiveRightCheck(wordToCheck);
+    };
 };
 
 function recursiveRightCheck(t) {
@@ -22,10 +22,10 @@ function recursiveRightCheck(t) {
     let toCheck = t.pos[t.pos.length - 1] + 1;
     if (toCheck > upperBound || toCheck > Math.pow(GAME.boardSize, 2) || !GAME.board[toCheck] || GAME.board[toCheck].tile == null) {
         return t;
-    }
+    };
     t.word += GAME.board[toCheck].tile.letter;
-    t.pos.push(toCheck)
+    t.pos.push(toCheck);
     GAME.board[toCheck].checked.h = 1;
     
-    return recursiveRightCheck(t)
-}
+    return recursiveRightCheck(t);
+};
