@@ -120,13 +120,11 @@ export class PlayerTile extends GameObject {
         if (this.isMouseOver && GAME.selectedTile == null && this.Movable) {
             this.color = 'rgba(255, 234, 0, 0.75)';
             if (GAME.mouse.lmb) {
-                console.log(this)
                 GAME.selectedTile = {...this};
                 GAME.selectedTile.draw = this.draw;
             }
         }  else {
             this.color = 'rgba(255, 255, 255, 1)';
-
         }
     };
 };
