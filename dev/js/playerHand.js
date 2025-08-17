@@ -4,7 +4,7 @@ import { BOARDWIDTH, YINITIAL} from "./setup";
 
 export function handlePlayerHand() {
     let y = YINITIAL + BOARDWIDTH + GAME.tilewidth/3;
-    let x = ((canvas.width/2) - (GAME.tilewidth * 5 * 1.1)/2) - (GAME.tilewidth * 1.1);
+    let x = ((canvas.width/2) - (GAME.tilewidth * GAME.maximumHand * 1.1)/2) - (GAME.tilewidth * 1.1);
 
     for (const t of GAME.playerHand) {
         x += GAME.tilewidth * 1.1
