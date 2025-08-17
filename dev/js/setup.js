@@ -2,7 +2,7 @@ import { PlayerTile, BoardTile } from "./classes";
 import { GAME } from "./global";
 
 export const BOARDWIDTH = GAME.tilewidth * GAME.boardSize;
-export const XINITIAL = canvas.width/2 - BOARDWIDTH/2;
+export const XINITIAL = canvas.width / 2 - BOARDWIDTH / 2;
 export const YINITIAL = 430;
 
 const LETTERS = [
@@ -41,6 +41,6 @@ for (let i = 0; i < Math.pow(GAME.boardSize, 2); i++) {
     let x = XINITIAL + (j * GAME.tilewidth)
     let y = YINITIAL + (Math.floor(i / GAME.boardSize) * GAME.tilewidth)
     GAME.board.push(new BoardTile(x, y, GAME.tilewidth, GAME.tilewidth, i));
-    
+
     j++
 };

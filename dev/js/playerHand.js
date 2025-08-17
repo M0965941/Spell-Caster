@@ -1,17 +1,19 @@
+import { canvas } from "./canvas";
 import { GAME } from "./global";
+import { BOARDWIDTH, YINITIAL, XINITIAL } from "./setup";
 
 export function handlePlayerHand() {
-    let x = -10;
-    let y = 590;
-    let size = GAME.tilewidth;
+    let y = YINITIAL + BOARDWIDTH + GAME.tilewidth/3;
+    let x = ((canvas.width/2) - (GAME.tilewidth * 5 * 1.1)/2) - (GAME.tilewidth * 1.1);
 
     for (const t of GAME.playerHand) {
-        x += 60
+        x += GAME.tilewidth * 1.1
+
         if (t[0]) {
             t[0].x = x;
             t[0].y = y;
-            t[0].width = size;
-            t[0].height = size;
+            t[0].width = GAME.tilewidth;
+            t[0].height = GAME.tilewidth;
             t[0].draw();
         }
 

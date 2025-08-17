@@ -8,7 +8,7 @@ export const GAME = {
     playerHand: [],
     selectedTile: null,
     boardSize: 3,
-    tilewidth: 50,
+    tilewidth: 40,
     pouch: [],
     maximumHand: 5,
     validWords: [],
