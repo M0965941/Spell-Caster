@@ -32,19 +32,6 @@ export class CastButton extends GameObject {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.restore();
-
-
-        if (GAME.invalidWords.length == 0 && GAME.validWords.length > 0) {
-            this.color = 'darkgreen'
-
-            if (this.isMouseOver && GAME.mouse.lmb) {
-                console.log(`Damage the guy for ${GAME.points}`)
-            }
-        } else {
-            this.color = 'darkred'
-        }
-
-
     }
 }
 
@@ -70,16 +57,12 @@ export class BoardTile extends GameObject {
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.restore();
 
-        if (this.isMouseOver) {
+        if (this.isMouseOver && GAME.selectedTile) {
             this.color = 'red'
         } else {
             this.color = 'black'
         };
-
-        if (this.tile == null) {
-            this.placeable = 1
-        }
-
+        
         if (this.tile != null) {
             this.tile.x = this.x
             this.tile.y = this.y
@@ -100,7 +83,6 @@ export class PlayerTile extends GameObject {
         this.letter = tile.letter;
         this.points = tile.points;
         this.validWord = 0;
-        this.color = 'white'
     };
 
     draw() {
@@ -125,6 +107,6 @@ export class PlayerTile extends GameObject {
             }
         }  else {
             this.color = 'rgba(255, 255, 255, 1)';
-        }
+        };
     };
 };

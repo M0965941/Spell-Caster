@@ -10,7 +10,6 @@ import { wordList } from "./wordslist";
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   requestAnimationFrame(animate);
-  GAME.wordsToCheck = [];
 
   for (const i of UIArray) {i.draw();}
   handlePlayerHand();
