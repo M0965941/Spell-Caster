@@ -41,6 +41,23 @@ export class UI extends GameObject {
     };
 };
 
+export class EnemyHealth extends GameObject {
+    constructor(x, y, w, h) {
+        super(x, y, w, h);
+        this.HP = 50;
+        this.maxHP = 100;
+    };
+    draw() {
+        super.draw();
+        let hpDisplay = `${this.HP}/${this.maxHP}`
+        ctx.save();
+        ctx.fillStyle = 'black';
+        ctx.font = "20px serif";
+        ctx.fillText(hpDisplay, canvas.width/2 - ctx.measureText(hpDisplay).width/2, this.y + 30);
+        ctx.restore();
+    }
+};
+
 export class BoardTile extends GameObject {
     constructor(x, y, w, h, id) {
         super(x, y, w, h);
@@ -62,7 +79,7 @@ export class BoardTile extends GameObject {
         } else {
             this.color = 'black'
         };
-        
+
         if (this.tile != null) {
             this.tile.x = this.x
             this.tile.y = this.y
@@ -102,10 +119,10 @@ export class PlayerTile extends GameObject {
         if (this.isMouseOver && GAME.selectedTile == null && this.Movable) {
             this.color = 'rgba(255, 234, 0, 0.75)';
             if (GAME.mouse.lmb) {
-                GAME.selectedTile = {...this};
+                GAME.selectedTile = { ...this };
                 GAME.selectedTile.draw = this.draw;
             }
-        }  else {
+        } else {
             this.color = 'rgba(255, 255, 255, 1)';
         };
     };
