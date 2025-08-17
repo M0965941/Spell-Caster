@@ -36,7 +36,7 @@ export class CastButton extends GameObject {
 
         if (GAME.invalidWords.length == 0 && GAME.validWords.length > 0) {
             this.color = 'darkgreen'
-            
+
             if (this.isMouseOver && GAME.mouse.lmb) {
                 console.log(`Damage the guy for ${GAME.points}`)
             }
@@ -57,10 +57,8 @@ export class UI extends GameObject {
 export class BoardTile extends GameObject {
     constructor(x, y, w, h, id) {
         super(x, y, w, h);
-        this.active = 0;
         this.color = 'black';
         this.tile = null;
-        this.placeable = 1;
         this.id = id;
         this.checked = { h: 0, v: 0 };
     };
@@ -72,7 +70,7 @@ export class BoardTile extends GameObject {
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.restore();
 
-        if (GAME.selectedTile !== null && this.isMouseOver && (this.tile == null || this.tile.active == 1)) {
+        if (this.isMouseOver) {
             this.color = 'red'
         } else {
             this.color = 'black'
@@ -83,10 +81,8 @@ export class BoardTile extends GameObject {
         }
 
         if (this.tile != null) {
-            if (GAME.mouse.lmb == 0) {
-                this.placeable = 0;
-            }
-
+            this.tile.x = this.x
+            this.tile.y = this.y
             if (GAME.selectedTile) {
                 if (GAME.mouse.lmb == 1 && GAME.selectedTile.id == this.tile.id) {
                     this.tile = null
@@ -97,16 +93,14 @@ export class BoardTile extends GameObject {
 };
 
 export class PlayerTile extends GameObject {
-    constructor(x, y, w, h, tile) {
-        super(x, y, w, h, tile);
+    constructor(tile) {
+        super(tile);
         this.id = tile.id;
-        this.xo = x;
-        this.yo = y;
         this.Movable = 1;
         this.letter = tile.letter;
-        this.points = tile.points
-        this.linkedID = -1;
+        this.points = tile.points;
         this.validWord = 0;
+        this.color = 'white'
     };
 
     draw() {
@@ -126,41 +120,13 @@ export class PlayerTile extends GameObject {
         if (this.isMouseOver && GAME.selectedTile == null && this.Movable) {
             this.color = 'rgba(255, 234, 0, 0.75)';
             if (GAME.mouse.lmb) {
-                GAME.selectedTile = structuredClone(this);
+                console.log(this)
+                GAME.selectedTile = {...this};
                 GAME.selectedTile.draw = this.draw;
             }
-        } else {
-            if (this.validWord) {
-                this.color = 'rgba(0, 255, 51, 1)';
-            } else {
-                this.color = 'rgba(255, 255, 255, 1)';
-            }
+        }  else {
+            this.color = 'rgba(255, 255, 255, 1)';
+
         }
-
-        if (GAME.selectedTile !== null) {
-            if (GAME.selectedTile.id === this.id) {
-                this.color = 'rgba(225,225,225,0.25)';
-
-                this.x = GAME.mouse.x - this.width / 2;
-                this.y = GAME.mouse.y - this.height / 2;
-
-                let boardTile = GAME.board.find((e) => pointRectCollision(GAME.mouse, e) && e.placeable);
-
-                if (boardTile) {
-                    this.x = boardTile.x;
-                    this.y = boardTile.y;
-                    GAME.board[boardTile.id].tile = GAME.selectedTile;
-                    this.linkedID = boardTile.id;
-                } else {
-                    this.linkedID = -1;
-                }
-            };
-        };
-
-        if (this.linkedID == -1 && GAME.mouse.lmb == 0) {
-            this.x = this.xo;
-            this.y = this.yo;
-            this.validWord = 0;
-        };
     };
 };
