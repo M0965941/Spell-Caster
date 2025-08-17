@@ -1,6 +1,6 @@
 import { canvas } from "./canvas";
 import { GAME } from "./global";
-import { BOARDWIDTH, YINITIAL, XINITIAL } from "./setup";
+import { BOARDWIDTH, YINITIAL} from "./setup";
 
 export function handlePlayerHand() {
     let y = YINITIAL + BOARDWIDTH + GAME.tilewidth/3;

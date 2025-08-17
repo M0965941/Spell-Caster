@@ -3,7 +3,7 @@ import { GAME } from "./global";
 
 export const BOARDWIDTH = GAME.tilewidth * GAME.boardSize;
 export const XINITIAL = canvas.width / 2 - BOARDWIDTH / 2;
-export const YINITIAL = 430;
+export const YINITIAL = canvas.height * 0.61;
 
 const LETTERS = [
     { 'letter': 'A', 'points': 1, 'dist': 2 },
