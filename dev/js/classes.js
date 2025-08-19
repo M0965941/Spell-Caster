@@ -24,7 +24,7 @@ export class GameObject {
 export class EnemyHealth extends GameObject {
     constructor(x, y, w, h) {
         super(x, y, w, h);
-        this.HP = 50;
+        this.HP = 100;
         this.maxHP = 100;
     };
     draw() {
@@ -58,11 +58,19 @@ export class CastButton extends GameObject {
         } else {
             this.color = 'green'
             if(this.isMouseOver && GAME.mouse.lmb){
-                GAME.enemy.HP -= GAME.points;
-            }
-        }
-    }
-}
+                let temp =  GAME.points;
+                GAME.points = 0;
+                GAME.enemy.HP -= temp;
+                for (const b of GAME.board){
+                    if(b.tile){
+                        b.tile.Movable = 0;
+                        b.tile.validWord = -1;
+                    };
+                };
+            };
+        };
+    };
+};
 
 export class UI extends GameObject {
     constructor(x, y, w, h) {
@@ -118,6 +126,8 @@ export class PlayerTile extends GameObject {
 
     draw() {
         super.checkIfMouseOver();
+        let opacity;
+        if(this.Movable){opacity = 1}else{opacity = 0.75}
         ctx.save();
         ctx.strokeStyle = this.color
         ctx.fillStyle = this.color;
@@ -126,8 +136,8 @@ export class PlayerTile extends GameObject {
 
         ctx.save();
         ctx.fillStyle = 'black';
-        ctx.font = "20px serif";
-        ctx.fillText(this.letter, this.x + this.width / 3, this.y + this.height / 1.5);
+        ctx.font = "15px serif";
+        ctx.fillText(`${this.letter}-${this.points}`, this.x + this.width / 3, this.y + this.height / 1.5);
         ctx.restore();
 
         if (this.isMouseOver && GAME.selectedTile == null && this.Movable) {
@@ -138,11 +148,11 @@ export class PlayerTile extends GameObject {
             }
         } else {
             if (this.validWord == 1) {
-                this.color = 'rgba(60, 255, 0, 1)';
+                this.color = `rgba(60, 255, 0, ${opacity})`;
             } else if (this.validWord == 0) {
-                this.color = 'rgba(255, 0, 0, 1)';
+                this.color = `rgba(255, 0, 0, ${opacity})`;
             } else {
-                this.color = 'rgba(255, 255, 255, 1)';
+                this.color = `rgba(255, 255, 255, ${opacity})`;
             }
         };
     };

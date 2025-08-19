@@ -12,18 +12,21 @@ export function drawBoard() {
 };
 
 function checkTiles(g) {
-    let wordToCheck = { word: g.tile.letter, pos: [g.id], points: g.tile.points };
+    let wordToCheck = { word: g.tile.letter, pos: [g.id], points: g.tile.points, newWord: 0 };
     if (g.checked.h == 0) {
-        recursiveRightCheck(wordToCheck);
-        if (wordList.includes(`|${wordToCheck.word.toLowerCase()}|`)) {
-            for (const w of wordToCheck.pos) {
-                GAME.board[w].tile.validWord = 1;
+        recursiveRightCheck(wordToCheck)
+        console.log(wordToCheck)
+        if (wordToCheck.newWord == 1) {
+            if (wordList.includes(`|${wordToCheck.word.toLowerCase()}|`)) {
                 GAME.points += wordToCheck.points;
-            }
-        } else {
-            for (const w of wordToCheck.pos) {
-                GAME.hasInvalidWords = 1;
-                GAME.board[w].tile.validWord = 0;
+                for (const w of wordToCheck.pos) {
+                    GAME.board[w].tile.validWord = 1;
+                }
+            } else {
+                for (const w of wordToCheck.pos) {
+                    GAME.hasInvalidWords = 1;
+                    GAME.board[w].tile.validWord = 0;
+                }
             }
         }
     };
@@ -35,8 +38,10 @@ function recursiveRightCheck(t) {
     if (toCheck > upperBound || toCheck > Math.pow(GAME.boardSize, 2) || !GAME.board[toCheck] || GAME.board[toCheck].tile == null) {
         return t;
     };
+    if (GAME.board[toCheck].tile.Movable == 1) { t.newWord = 1 }
     t.word += GAME.board[toCheck].tile.letter;
     t.pos.push(toCheck);
+    t.points += GAME.board[toCheck].tile.points;
     GAME.board[toCheck].checked.h = 1;
 
     return recursiveRightCheck(t);
