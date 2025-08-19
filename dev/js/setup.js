@@ -1,9 +1,12 @@
-import { PlayerTile, BoardTile, Pouch } from "./classes";
+import { PlayerTile, BoardTile, Pouch, EnemyHealth } from "./classes";
 import { GAME } from "./global";
 
 export const BOARDWIDTH = GAME.tilewidth * GAME.boardSize;
 export const XINITIAL = canvas.width / 2 - BOARDWIDTH / 2;
 export const YINITIAL = canvas.height * 0.61;
+
+GAME.enemy = new EnemyHealth(canvas.width / 2 - 125, 50, 250, 10);
+GAME.pouch = new Pouch(0, 400 - 25 + 7, 50, 50);
 
 const LETTERS = [
     { 'letter': 'A', 'points': 1, 'dist': 2 },
@@ -14,8 +17,6 @@ const LETTERS = [
 let tiles = [];
 let count = 1;
 let j = 0;
-
-GAME.pouch =  new Pouch(0, 400 - 25 + 7, 50, 50);
 
 for (const t of LETTERS) {
     for (let i = 0; i < t.dist; i++) {
@@ -33,8 +34,7 @@ for (const t of randomTiles) {
     GAME.pouch.availableTiles.push(new PlayerTile(t));
 };
 
-
-for (let i = 0; i < GAME.maximumHand; i++) {GAME.playerHand.push([])}
+for (let i = 0; i < GAME.maximumHand; i++) { GAME.playerHand.push([]) }
 
 for (const tile of GAME.playerHand) {
     tile.push(new PlayerTile(GAME.pouch.availableTiles[0]));

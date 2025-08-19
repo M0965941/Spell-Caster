@@ -5,7 +5,6 @@ import { drawBoard } from "./board";
 import { } from "./mouse";
 import { } from "./setup";
 import { GAME } from "./global";
-import { } from "./enemy.js"
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
