@@ -53,7 +53,7 @@ export class EnemyHealth extends GameObject {
         ctx.save();
         ctx.fillStyle = 'black';
         ctx.font = "20px serif";
-        ctx.fillText(hpDisplay, canvas.width/2 - ctx.measureText(hpDisplay).width/2, this.y + 30);
+        ctx.fillText(hpDisplay, canvas.width / 2 - ctx.measureText(hpDisplay).width / 2, this.y + 30);
         ctx.restore();
     }
 };
@@ -99,7 +99,7 @@ export class PlayerTile extends GameObject {
         this.Movable = 1;
         this.letter = tile.letter;
         this.points = tile.points;
-        this.validWord = 0;
+        this.validWord = -1;
     };
 
     draw() {
@@ -123,7 +123,13 @@ export class PlayerTile extends GameObject {
                 GAME.selectedTile.draw = this.draw;
             }
         } else {
-            this.color = 'rgba(255, 255, 255, 1)';
+            if (this.validWord == 1) {
+                this.color = 'rgba(60, 255, 0, 1)';
+            } else if (this.validWord == 0) {
+                this.color = 'rgba(255, 0, 0, 1)';
+            } else {
+                this.color = 'rgba(255, 255, 255, 1)';
+            }
         };
     };
 };

@@ -1,4 +1,5 @@
 import { GAME } from "./global";
+import { wordList } from "./wordslist";
 
 export function drawBoard() {
     for (const g of GAME.board) {
@@ -13,7 +14,18 @@ export function drawBoard() {
 function checkTiles(g) {
     let wordToCheck = { word: g.tile.letter, pos: [g.id] };
     if (g.checked.h == 0) {
-        recursiveRightCheck(wordToCheck);
+        let rc = recursiveRightCheck(wordToCheck);
+        console.log(wordList.includes(`|${wordToCheck.word.toLowerCase()}|`))
+        if (wordList.includes(`|${wordToCheck.word.toLowerCase()}|`)) {
+
+            for (const w of wordToCheck.pos) {
+                GAME.board[w].tile.validWord = 1;
+            }
+        } else {
+            for (const w of wordToCheck.pos) {
+                GAME.board[w].tile.validWord = 0;
+            }
+        }
     };
 };
 
@@ -26,6 +38,6 @@ function recursiveRightCheck(t) {
     t.word += GAME.board[toCheck].tile.letter;
     t.pos.push(toCheck);
     GAME.board[toCheck].checked.h = 1;
-    
+
     return recursiveRightCheck(t);
 };

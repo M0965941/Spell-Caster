@@ -15,6 +15,7 @@ export function handlePlayerHand() {
             t[0].width = GAME.tilewidth;
             t[0].height = GAME.tilewidth;
             t[0].draw();
+            t[0].validWord = -1;
         }
 
         if (GAME.selectedTile && t[0]) {
