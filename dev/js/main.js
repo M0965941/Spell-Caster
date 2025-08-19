@@ -5,19 +5,20 @@ import { drawBoard } from "./board";
 import { } from "./mouse";
 import { } from "./setup";
 import { GAME } from "./global";
-import { wordList } from "./wordslist";
+import { } from "./enemy.js"
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   requestAnimationFrame(animate);
+  GAME.points = 0
+  GAME.hasInvalidWords = 0;
 
-  for (const i of UIArray) {i.draw();}
   handlePlayerHand();
   drawBoard();
-
-  if (GAME.selectedTile) {GAME.selectedTile.draw();}
+  for (const i of UIArray) { i.draw(); }
+  if (GAME.selectedTile) { GAME.selectedTile.draw(); }
 
   GAME.validWords = [];
-  GAME.invalidWords = [];
+  GAME.enemy.draw();
 };
 animate();

@@ -12,17 +12,17 @@ export function drawBoard() {
 };
 
 function checkTiles(g) {
-    let wordToCheck = { word: g.tile.letter, pos: [g.id] };
+    let wordToCheck = { word: g.tile.letter, pos: [g.id], points: g.tile.points };
     if (g.checked.h == 0) {
-        let rc = recursiveRightCheck(wordToCheck);
-        console.log(wordList.includes(`|${wordToCheck.word.toLowerCase()}|`))
+        recursiveRightCheck(wordToCheck);
         if (wordList.includes(`|${wordToCheck.word.toLowerCase()}|`)) {
-
             for (const w of wordToCheck.pos) {
                 GAME.board[w].tile.validWord = 1;
+                GAME.points += wordToCheck.points;
             }
         } else {
             for (const w of wordToCheck.pos) {
+                GAME.hasInvalidWords = 1;
                 GAME.board[w].tile.validWord = 0;
             }
         }

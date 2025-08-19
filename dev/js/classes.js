@@ -20,26 +20,6 @@ export class GameObject {
     };
 };
 
-export class CastButton extends GameObject {
-    constructor(x, y, w, h) {
-        super(x, y, w, h);
-        this.color = 'darkred'
-    };
-    draw() {
-        super.checkIfMouseOver();
-        ctx.save();
-        ctx.strokeStyle = this.color
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.restore();
-    }
-}
-
-export class UI extends GameObject {
-    constructor(x, y, w, h) {
-        super(x, y, w, h);
-    };
-};
 
 export class EnemyHealth extends GameObject {
     constructor(x, y, w, h) {
@@ -57,6 +37,40 @@ export class EnemyHealth extends GameObject {
         ctx.restore();
     }
 };
+
+export class CastButton extends GameObject {
+    constructor(x, y, w, h) {
+        super(x, y, w, h);
+    };
+    draw() {
+        super.checkIfMouseOver();
+        ctx.save();
+        ctx.strokeStyle = this.color
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.restore();
+
+        console.log(GAME.points)
+
+        if (GAME.hasInvalidWords == 1 || GAME.points == 0) {
+
+            this.color = 'darkred'
+        } else {
+            this.color = 'green'
+            if(this.isMouseOver && GAME.mouse.lmb){
+                GAME.enemy.HP -= GAME.points;
+            }
+        }
+    }
+}
+
+export class UI extends GameObject {
+    constructor(x, y, w, h) {
+        super(x, y, w, h);
+    };
+};
+
+
 
 export class BoardTile extends GameObject {
     constructor(x, y, w, h, id) {

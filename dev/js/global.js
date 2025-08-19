@@ -11,6 +11,7 @@ export const GAME = {
     tilewidth: 40,
     pouch: [],
     maximumHand: 5,
-    validWords: [],
+    hasInvalidWords: 0,
     points: 0,
+    enemy: null
 };
