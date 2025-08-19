@@ -9,6 +9,12 @@ export let mouse = {
 
 canvas.addEventListener('mouseup', (e) => {
     GAME.mouse.lmb = 0;
+    if(GAME.pouch.isMouseOver && GAME.pouch.widthrawable == 1){
+        GAME.selectedTile = GAME.pouch.availableTiles[0]
+        GAME.selectedTile.draw = GAME.pouch.availableTiles[0].draw;
+        GAME.pouch.availableTiles.shift();
+    }
+
     if (GAME.selectedTile !== null) {
         for (const b of GAME.board) {
             if (b.isMouseOver && b.tile == null) {

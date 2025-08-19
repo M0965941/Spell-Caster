@@ -20,5 +20,6 @@ function animate() {
 
   GAME.validWords = [];
   GAME.enemy.draw();
+  GAME.pouch.draw();
 };
 animate();

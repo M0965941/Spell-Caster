@@ -15,7 +15,6 @@ function checkTiles(g) {
     let wordToCheck = { word: g.tile.letter, pos: [g.id], points: g.tile.points, newWord: 0 };
     if (g.checked.h == 0) {
         recursiveRightCheck(wordToCheck)
-        console.log(wordToCheck)
         if (wordToCheck.newWord == 1) {
             if (wordList.includes(`|${wordToCheck.word.toLowerCase()}|`)) {
                 GAME.points += wordToCheck.points;

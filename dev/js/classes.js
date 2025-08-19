@@ -50,19 +50,17 @@ export class CastButton extends GameObject {
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.restore();
 
-        console.log(GAME.points)
-
         if (GAME.hasInvalidWords == 1 || GAME.points == 0) {
 
             this.color = 'darkred'
         } else {
             this.color = 'green'
-            if(this.isMouseOver && GAME.mouse.lmb){
-                let temp =  GAME.points;
+            if (this.isMouseOver && GAME.mouse.lmb) {
+                let temp = GAME.points;
                 GAME.points = 0;
                 GAME.enemy.HP -= temp;
-                for (const b of GAME.board){
-                    if(b.tile){
+                for (const b of GAME.board) {
+                    if (b.tile) {
                         b.tile.Movable = 0;
                         b.tile.validWord = -1;
                     };
@@ -75,6 +73,50 @@ export class CastButton extends GameObject {
 export class UI extends GameObject {
     constructor(x, y, w, h) {
         super(x, y, w, h);
+    };
+};
+
+export class Pouch extends GameObject {
+    constructor(x, y, w, h) {
+        super(x, y, w, h);
+        this.color = 'darkgreen';
+        this.availableTiles = [];
+    };
+    draw() {
+        super.checkIfMouseOver();
+        ctx.save();
+        ctx.strokeStyle = this.color
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.restore();
+        let currentTiles = 0;
+
+        for (const h of GAME.playerHand) {
+            if (h[0]) {
+                if (h[0].Movable == 1) {
+                    currentTiles++
+                };
+            }
+        };
+        for (const b of GAME.board) {
+            if (b.tile) {
+                if (b.tile.Movable == 1) {
+                    currentTiles++
+                };
+            };
+        }
+        if(GAME.selectedTile){currentTiles++}
+
+        if (this.availableTiles.length <= 0 || currentTiles >= GAME.maximumHand) {
+            this.color = 'darkred'
+            this.widthrawable = 0
+        } else {
+            this.color = 'darkgreen'
+
+            if(this.isMouseOver && GAME.mouse.lmb == 1){
+                this.widthrawable = 1
+            };
+        };
     };
 };
 
@@ -116,7 +158,7 @@ export class BoardTile extends GameObject {
 
 export class PlayerTile extends GameObject {
     constructor(tile) {
-        super(tile);
+        super();
         this.id = tile.id;
         this.Movable = 1;
         this.letter = tile.letter;
@@ -127,7 +169,7 @@ export class PlayerTile extends GameObject {
     draw() {
         super.checkIfMouseOver();
         let opacity;
-        if(this.Movable){opacity = 1}else{opacity = 0.75}
+        if (this.Movable) { opacity = 1 } else { opacity = 0.75 }
         ctx.save();
         ctx.strokeStyle = this.color
         ctx.fillStyle = this.color;

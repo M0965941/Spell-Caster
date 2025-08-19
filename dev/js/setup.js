@@ -1,4 +1,4 @@
-import { PlayerTile, BoardTile } from "./classes";
+import { PlayerTile, BoardTile, Pouch } from "./classes";
 import { GAME } from "./global";
 
 export const BOARDWIDTH = GAME.tilewidth * GAME.boardSize;
@@ -8,12 +8,14 @@ export const YINITIAL = canvas.height * 0.61;
 const LETTERS = [
     { 'letter': 'A', 'points': 1, 'dist': 2 },
     { 'letter': 'B', 'points': 3, 'dist': 1 },
-    { 'letter': 'C', 'points': 3, 'dist': 2 },
+    { 'letter': 'C', 'points': 3, 'dist': 3 },
 ]
 
 let tiles = [];
 let count = 1;
 let j = 0;
+
+GAME.pouch =  new Pouch(0, 400 - 25 + 7, 50, 50);
 
 for (const t of LETTERS) {
     for (let i = 0; i < t.dist; i++) {
@@ -22,18 +24,21 @@ for (const t of LETTERS) {
     };
 };
 
-GAME.pouch = tiles
+let randomTiles = tiles
     .map(value => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value);
 
-for (let i = 0; i < GAME.maximumHand; i++) {
-    GAME.playerHand.push([])
-}
+for (const t of randomTiles) {
+    GAME.pouch.availableTiles.push(new PlayerTile(t));
+};
+
+
+for (let i = 0; i < GAME.maximumHand; i++) {GAME.playerHand.push([])}
 
 for (const tile of GAME.playerHand) {
-    tile.push(new PlayerTile(GAME.pouch[0]));
-    GAME.pouch.shift();
+    tile.push(new PlayerTile(GAME.pouch.availableTiles[0]));
+    GAME.pouch.availableTiles.shift();
 };
 
 for (let i = 0; i < Math.pow(GAME.boardSize, 2); i++) {
