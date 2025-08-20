@@ -25,10 +25,17 @@ export class EnemyHealth extends GameObject {
         super(x, y, w, h);
         this.HP = 100;
         this.maxHP = 100;
+        this.isMoving = 0;
+        this.dy = 1;
+        this.dx = 0;
+        this.spriteY = canvas.height * 0.35 - 10
+        this.yo = canvas.height * 0.35
+        this.MoveSpeed = 1
     };
     draw() {
         super.draw();
         this.drawEnemySprite();
+        if(this.isMoving){this.move()}else{this.spriteY = canvas.height * 0.35 - 10}
         let hpDisplay = `${this.HP}/${this.maxHP}`
         ctx.save();
         ctx.fillStyle = 'black';
@@ -46,8 +53,13 @@ export class EnemyHealth extends GameObject {
         ctx.save();
         ctx.strokeStyle = this.color
         ctx.fillStyle = this.color;
-        ctx.fillRect(canvas.width * 0.8 - GAME.tilewidth, canvas.height * 0.35, GAME.tilewidth*1.5, GAME.tilewidth*1.5);
+        ctx.fillRect(canvas.width * 0.8 - GAME.tilewidth, this.spriteY, GAME.tilewidth*1.5, GAME.tilewidth*1.5);
         ctx.restore();
+    }
+    move(){
+        if(this.spriteY > this.yo){this.dy = -this.MoveSpeed}
+        if(this.spriteY < canvas.height * 0.35 - 10){this.dy = this.MoveSpeed}
+        this.spriteY += this.dy
     }
 };
 
