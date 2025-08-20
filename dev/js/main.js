@@ -21,5 +21,7 @@ function animate() {
   GAME.validWords = [];
   GAME.enemy.draw();
   GAME.pouch.draw();
+  GAME.playerHealth.draw()
+  console.log(GAME.isPlayerTurn)
 };
 animate();

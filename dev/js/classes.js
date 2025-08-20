@@ -27,15 +27,18 @@ export class EnemyHealth extends GameObject {
         this.maxHP = 100;
         this.isMoving = 0;
         this.dy = 1;
-        this.dx = 0;
+        this.dx = -5;
         this.spriteY = canvas.height * 0.35 - 10
+        this.spriteX = canvas.width * 0.8 - GAME.tilewidth
         this.yo = canvas.height * 0.35
         this.MoveSpeed = 1
     };
     draw() {
         super.draw();
         this.drawEnemySprite();
-        if(this.isMoving){this.move()}else{this.spriteY = canvas.height * 0.35 - 10}
+        if (this.isMoving) { this.move() } else { this.spriteY = canvas.height * 0.35 - 10 };
+        
+        if (GAME.isPlayerTurn == 0) { this.attackPlayer() } else {this.spriteX = canvas.width * 0.8 - GAME.tilewidth}
         let hpDisplay = `${this.HP}/${this.maxHP}`
         ctx.save();
         ctx.fillStyle = 'black';
@@ -53,13 +56,17 @@ export class EnemyHealth extends GameObject {
         ctx.save();
         ctx.strokeStyle = this.color
         ctx.fillStyle = this.color;
-        ctx.fillRect(canvas.width * 0.8 - GAME.tilewidth, this.spriteY, GAME.tilewidth*1.5, GAME.tilewidth*1.5);
+        ctx.fillRect(this.spriteX, this.spriteY, GAME.tilewidth * 1.5, GAME.tilewidth * 1.5);
         ctx.restore();
     }
-    move(){
-        if(this.spriteY > this.yo){this.dy = -this.MoveSpeed}
-        if(this.spriteY < canvas.height * 0.35 - 10){this.dy = this.MoveSpeed}
+    move() {
+        if (this.spriteY > this.yo) { this.dy = -this.MoveSpeed }
+        if (this.spriteY < canvas.height * 0.35 - 10) { this.dy = this.MoveSpeed }
         this.spriteY += this.dy
+    }
+    attackPlayer() {
+        if (this.spriteX < canvas.width * 0.8 - GAME.tilewidth - 10) { GAME.isPlayerTurn = 1}
+        this.spriteX += this.dx
     }
 };
 
@@ -90,6 +97,8 @@ export class CastButton extends GameObject {
                         b.tile.validWord = -1;
                     };
                 };
+
+                GAME.isPlayerTurn = 0
             };
         };
     };
@@ -98,6 +107,27 @@ export class CastButton extends GameObject {
 export class UI extends GameObject {
     constructor(x, y, w, h) {
         super(x, y, w, h);
+    };
+};
+
+export class PlayerHealth extends GameObject {
+    constructor(x, y, w, h) {
+        super(x, y, w, h);
+        this.currentHealth = 50
+        this.maximumHealth = 50
+    };
+    draw() {
+        let hpDisplay = `${this.currentHealth}/${this.maximumHealth}`
+        ctx.save();
+        ctx.fillStyle = 'darkGreen';
+        ctx.fillRect(this.x, this.y, (this.currentHealth / this.maximumHealth) * this.width, this.height);
+        ctx.restore();
+
+        ctx.save();
+        ctx.fillStyle = 'white';
+        ctx.font = "20px serif";
+        ctx.fillText(hpDisplay, canvas.width / 2 - ctx.measureText(hpDisplay).width / 3, this.y + 15);
+        ctx.restore();
     };
 };
 
@@ -115,7 +145,7 @@ export class Pouch extends GameObject {
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.restore();
 
-        if (this.availableTiles.length <= 0 || GAME.currentActiveTile >= GAME.maximumHand) {
+        if (this.availableTiles.length <= 0 || GAME.currentActiveTile >= GAME.maximumHand || GAME.isPlayerTurn == 0) {
             this.color = 'darkred'
             this.widthrawable = 0
         } else {

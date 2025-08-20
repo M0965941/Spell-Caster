@@ -15,5 +15,7 @@ export const GAME = {
     points: 0,
     enemy: null,
     round: 0,
-    currentActiveTile: 0
+    currentActiveTile: 0,
+    isPlayerTurn: 1,
+    playerHealth: 100
 };

@@ -1,4 +1,4 @@
-import { PlayerTile, BoardTile, Pouch, EnemyHealth } from "./classes";
+import { PlayerTile, BoardTile, Pouch, EnemyHealth, PlayerHealth } from "./classes";
 import { GAME } from "./global";
 
 export const BOARDWIDTH = GAME.tilewidth * GAME.boardSize;
@@ -7,6 +7,7 @@ export const YINITIAL = canvas.height * 0.61;
 
 GAME.enemy = new EnemyHealth(canvas.width / 2 - 125, 50, 250, 10);
 GAME.pouch = new Pouch(0, 400 - 25 + 7, 50, 50);
+GAME.playerHealth = new PlayerHealth(canvas.width / 2 - 150, 400, 400, 15)
 
 const LETTERS = [
     { 'letter': 'A', 'points': 1, 'dist': 2 },
