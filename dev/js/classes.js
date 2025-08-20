@@ -89,25 +89,8 @@ export class Pouch extends GameObject {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.restore();
-        let currentTiles = 0;
 
-        for (const h of GAME.playerHand) {
-            if (h[0]) {
-                if (h[0].Movable == 1) {
-                    currentTiles++
-                };
-            }
-        };
-        for (const b of GAME.board) {
-            if (b.tile) {
-                if (b.tile.Movable == 1) {
-                    currentTiles++
-                };
-            };
-        }
-        if(GAME.selectedTile){currentTiles++}
-
-        if (this.availableTiles.length <= 0 || currentTiles >= GAME.maximumHand) {
+        if (this.availableTiles.length <= 0 || GAME.currentActiveTile >= GAME.maximumHand) {
             this.color = 'darkred'
             this.widthrawable = 0
         } else {
@@ -169,7 +152,7 @@ export class PlayerTile extends GameObject {
     draw() {
         super.checkIfMouseOver();
         let opacity;
-        if (this.Movable) { opacity = 1 } else { opacity = 0.75 }
+        if (this.Movable) { opacity = 1; GAME.currentActiveTile++ } else { opacity = 0.75 }
         ctx.save();
         ctx.strokeStyle = this.color
         ctx.fillStyle = this.color;

@@ -11,6 +11,7 @@ function animate() {
   requestAnimationFrame(animate);
   GAME.points = 0
   GAME.hasInvalidWords = 0;
+  GAME.currentActiveTile = 0
 
   handlePlayerHand();
   drawBoard();

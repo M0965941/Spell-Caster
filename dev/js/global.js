@@ -13,5 +13,7 @@ export const GAME = {
     maximumHand: 5,
     hasInvalidWords: 0,
     points: 0,
-    enemy: null
+    enemy: null,
+    round: 0,
+    currentActiveTile: 0
 };
