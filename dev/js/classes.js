@@ -1,4 +1,4 @@
-import { ctx } from "./canvas";
+import { canvas, ctx } from "./canvas";
 import { GAME } from "./global";
 import { pointRectCollision } from "./helperFunctions";
 
@@ -20,7 +20,6 @@ export class GameObject {
     };
 };
 
-
 export class EnemyHealth extends GameObject {
     constructor(x, y, w, h) {
         super(x, y, w, h);
@@ -29,11 +28,25 @@ export class EnemyHealth extends GameObject {
     };
     draw() {
         super.draw();
+        this.drawEnemySprite();
         let hpDisplay = `${this.HP}/${this.maxHP}`
         ctx.save();
         ctx.fillStyle = 'black';
         ctx.font = "20px serif";
         ctx.fillText(hpDisplay, canvas.width / 2 - ctx.measureText(hpDisplay).width / 2, this.y + 30);
+        ctx.restore();
+
+        ctx.save();
+        ctx.strokeStyle = this.color
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, (this.HP / this.maxHP) * this.width, this.height);
+        ctx.restore();
+    }
+    drawEnemySprite() {
+        ctx.save();
+        ctx.strokeStyle = this.color
+        ctx.fillStyle = this.color;
+        ctx.fillRect(canvas.width * 0.8 - GAME.tilewidth, canvas.height * 0.35, GAME.tilewidth*1.5, GAME.tilewidth*1.5);
         ctx.restore();
     }
 };
@@ -96,14 +109,12 @@ export class Pouch extends GameObject {
         } else {
             this.color = 'darkgreen'
 
-            if(this.isMouseOver && GAME.mouse.lmb == 1){
+            if (this.isMouseOver && GAME.mouse.lmb == 1) {
                 this.widthrawable = 1
             };
         };
     };
 };
-
-
 
 export class BoardTile extends GameObject {
     constructor(x, y, w, h, id) {
