@@ -1,6 +1,6 @@
 import { canvas, ctx } from "./canvas";
 import { GAME } from "./global";
-import { pointRectCollision, getRandomInt } from "./helperFunctions";
+import { pointRectCollision, getRandomInt, clamp } from "./helperFunctions";
 
 export class GameObject {
     constructor(x, y, w, h) {
@@ -23,7 +23,7 @@ export class GameObject {
 export class EnemyHealth extends GameObject {
     constructor(x, y, w, h) {
         super(x, y, w, h);
-        this.HP = 1;
+        this.HP = 50;
         this.maxHP = 100;
         this.isMoving = 0;
         this.dy = 1;
@@ -34,7 +34,6 @@ export class EnemyHealth extends GameObject {
         this.MoveSpeed = 1;
         this.turnCount = 0;
         this.doSpecialAttack = 0;
-        this.specialAttackFrequency = 1;
     };
     draw() {
         super.draw();
@@ -46,6 +45,7 @@ export class EnemyHealth extends GameObject {
         } else {
             this.spriteX = canvas.width * 0.8 - GAME.tilewidth
         }
+        this.HP = clamp(this.HP, 0,1000)
         let hpDisplay = `${this.HP}/${this.maxHP}`
         ctx.save();
         ctx.fillStyle = 'black';
@@ -56,8 +56,9 @@ export class EnemyHealth extends GameObject {
         ctx.save();
         ctx.strokeStyle = this.color
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, (this.HP / this.maxHP) * this.width, this.height);
+        ctx.fillRect(this.x, this.y, clamp((this.HP / this.maxHP),0,1) * this.width, this.height);
         ctx.restore();
+        console.log(this.attackRanges)
     }
     drawEnemySprite() {
         ctx.save();
@@ -91,22 +92,57 @@ export class EnemyHealth extends GameObject {
 export class Enemy1 extends EnemyHealth {
     constructor(x, y, w, h) {
         super(x, y, w, h);
-        this.attackRanges = [0, 2]
+        this.specialAttackFrequency = 1;
+        this.attackRanges = [2, 4]
     };
     draw() {
         if (this.doSpecialAttack) {
-            for (const t of GAME.player.hand) {
-                if (t != '') {
-                    t.modifier--;
-                };
-            };
-            // const maxValue = GAME.player.hand.reduce((p, c) => p.points > c.points ? p : c);
+            const maxValue = GAME.player.hand.reduce((p, c) => p.points > c.points ? p : c);
+            this.attackRanges = this.attackRanges.map((x) => x + maxValue.points);
+            // TODO: add send maxValue to discard pile
             this.doSpecialAttack = 0;
         }
         super.draw();
+    };
+};
 
-    }
-}
+// export class Enemy1 extends EnemyHealth {
+//     constructor(x, y, w, h) {
+//         super(x, y, w, h);
+//         this.specialAttackFrequency = 1;
+//         this.attackRanges = [0, 2]
+//     };
+//     draw() {
+//         if (this.doSpecialAttack) {
+//             for (const t of GAME.player.hand) {
+//                 if (t != '') {
+//                     t.modifier--;
+//                 };
+//             };
+//             // const maxValue = GAME.player.hand.reduce((p, c) => p.points > c.points ? p : c);
+//             this.doSpecialAttack = 0;
+//         }
+//         super.draw();
+//     };
+// };
+
+
+// export class Enemy2 extends EnemyHealth {
+//     constructor(x, y, w, h) {
+//         super(x, y, w, h);
+//         this.specialAttackFrequency = 1;
+//         this.attackRanges = [2, 4]
+//     };
+//     draw() {
+//         if (this.doSpecialAttack) {
+//             const maxValue = GAME.player.hand.reduce((p, c) => p.points > c.points ? p : c);
+//             this.attackRanges = this.attackRanges.map((x) => x + maxValue.points);
+//             // TODO: add send maxValue to discard pile
+//             this.doSpecialAttack = 0;
+//         }
+//         super.draw();
+//     };
+// };
 
 
 export class CastButton extends GameObject {
@@ -246,7 +282,7 @@ export class PlayerTile extends GameObject {
         this.points = this.originalPoint + this.modifier
         if (this.modifier < 0) {
             this.textColor = 'red'
-        } else if (this.modifier > 0){
+        } else if (this.modifier > 0) {
             this.textColor = 'green'
         } else {
             this.textColor = 'black'
@@ -259,7 +295,7 @@ export class PlayerTile extends GameObject {
         ctx.restore();
 
         ctx.save();
-        ctx.fillStyle =  this.textColor;
+        ctx.fillStyle = this.textColor;
         ctx.font = "15px serif";
         ctx.fillText(`${this.letter}-${this.points}`, this.x + this.width / 3, this.y + this.height / 1.5);
         ctx.restore();
