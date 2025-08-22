@@ -45,7 +45,7 @@ export class EnemyHealth extends GameObject {
         } else {
             this.spriteX = canvas.width * 0.8 - GAME.tilewidth
         }
-        this.HP = clamp(this.HP, 0,1000)
+        this.HP = clamp(this.HP, 0, 1000)
         let hpDisplay = `${this.HP}/${this.maxHP}`
         ctx.save();
         ctx.fillStyle = 'black';
@@ -56,9 +56,8 @@ export class EnemyHealth extends GameObject {
         ctx.save();
         ctx.strokeStyle = this.color
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, clamp((this.HP / this.maxHP),0,1) * this.width, this.height);
+        ctx.fillRect(this.x, this.y, clamp((this.HP / this.maxHP), 0, 1) * this.width, this.height);
         ctx.restore();
-        console.log(this.attackRanges)
     }
     drawEnemySprite() {
         ctx.save();
@@ -85,11 +84,11 @@ export class EnemyHealth extends GameObject {
             GAME.isPlayerTurn = 1;
         }
         this.spriteX += this.dx;
-
-    }
+    };
 };
 
 export class Enemy1 extends EnemyHealth {
+    // Will heal the amount of damage you deal x2 + the max attack
     constructor(x, y, w, h) {
         super(x, y, w, h);
         this.specialAttackFrequency = 1;
@@ -97,9 +96,8 @@ export class Enemy1 extends EnemyHealth {
     };
     draw() {
         if (this.doSpecialAttack) {
-            const maxValue = GAME.player.hand.reduce((p, c) => p.points > c.points ? p : c);
-            this.attackRanges = this.attackRanges.map((x) => x + maxValue.points);
-            // TODO: add send maxValue to discard pile
+            this.HP += this.attackRanges[1] + Math.ceil(GAME.lastPointPlayed*2);
+            GAME.lastPointPlayed = 0;
             this.doSpecialAttack = 0;
         }
         super.draw();
@@ -107,6 +105,7 @@ export class Enemy1 extends EnemyHealth {
 };
 
 // export class Enemy1 extends EnemyHealth {
+// // Reduces all tile's on hand points by 1
 //     constructor(x, y, w, h) {
 //         super(x, y, w, h);
 //         this.specialAttackFrequency = 1;
@@ -119,7 +118,6 @@ export class Enemy1 extends EnemyHealth {
 //                     t.modifier--;
 //                 };
 //             };
-//             // const maxValue = GAME.player.hand.reduce((p, c) => p.points > c.points ? p : c);
 //             this.doSpecialAttack = 0;
 //         }
 //         super.draw();
@@ -128,6 +126,7 @@ export class Enemy1 extends EnemyHealth {
 
 
 // export class Enemy2 extends EnemyHealth {
+// // Steals highest valued tile and uses it to buff attack;
 //     constructor(x, y, w, h) {
 //         super(x, y, w, h);
 //         this.specialAttackFrequency = 1;
@@ -143,6 +142,25 @@ export class Enemy1 extends EnemyHealth {
 //         super.draw();
 //     };
 // };
+
+// export class Enemy3 extends EnemyHealth {
+//     // Will heal the amount of damage you deal x2 + the max attack
+//     constructor(x, y, w, h) {
+//         super(x, y, w, h);
+//         this.specialAttackFrequency = 1;
+//         this.attackRanges = [2, 4]
+//     };
+//     draw() {
+//         if (this.doSpecialAttack) {
+//             this.HP += this.attackRanges[1] + Math.ceil(GAME.lastPointPlayed*2);
+//             GAME.lastPointPlayed = 0;
+//             this.doSpecialAttack = 0;
+//         }
+//         super.draw();
+//     };
+// };
+
+
 
 
 export class CastButton extends GameObject {
@@ -166,6 +184,7 @@ export class CastButton extends GameObject {
                 let temp = GAME.points;
                 GAME.points = 0;
                 GAME.enemies[GAME.round].HP -= temp;
+                GAME.lastPointPlayed = temp;
                 for (const b of GAME.board) {
                     if (b.tile) {
                         b.tile.Movable = 0;

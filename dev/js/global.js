@@ -11,6 +11,7 @@ export const GAME = {
         sprite: null,
         pouch: [],
         hand: [],
+        lastPointPlayed: 0,
     },
     enemies: [],
     selectedTile: null,
