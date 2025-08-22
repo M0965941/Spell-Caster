@@ -1,12 +1,12 @@
-import { PlayerTile, BoardTile, Pouch, EnemyHealth, PlayerHealth } from "./classes";
+import { PlayerTile, BoardTile, Pouch, PlayerHealth, Enemy1 } from "./classes";
 import { GAME } from "./global";
 
 export const BOARDWIDTH = GAME.tilewidth * GAME.boardSize;
 export const XINITIAL = canvas.width / 2 - BOARDWIDTH / 2;
 export const YINITIAL = canvas.height * 0.61;
 
-GAME.enemy = new EnemyHealth(canvas.width / 2 - 125, 50, 250, 10);
-GAME.pouch = new Pouch(0, 400 - 25 + 7, 50, 50);
+GAME.enemies.push(new Enemy1(canvas.width / 2 - 125, 50, 250, 10)) 
+GAME.player.pouch = new Pouch(0, 400 - 25 + 7, 50, 50);
 GAME.playerHealth = new PlayerHealth(canvas.width / 2 - 150, 400, 400, 15)
 
 const LETTERS = [
@@ -32,15 +32,13 @@ let randomTiles = tiles
     .map(({ value }) => value);
 
 for (const t of randomTiles) {
-    GAME.pouch.availableTiles.push(new PlayerTile(t));
+    GAME.player.pouch.availableTiles.push(new PlayerTile(t));
 };
 
-for (let i = 0; i < GAME.maximumHand; i++) { GAME.playerHand.push([]) }
-
-for (const tile of GAME.playerHand) {
-    tile.push(new PlayerTile(GAME.pouch.availableTiles[0]));
-    GAME.pouch.availableTiles.shift();
-};
+for (let i = 0; i < GAME.maximumHand; i++) {
+    GAME.player.hand.push(new PlayerTile(GAME.player.pouch.availableTiles[0]));    
+    GAME.player.pouch.availableTiles.shift();
+}
 
 for (let i = 0; i < Math.pow(GAME.boardSize, 2); i++) {
     if (i % GAME.boardSize == 0) { j = 0; }

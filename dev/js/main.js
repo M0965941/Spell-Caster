@@ -17,11 +17,9 @@ function animate() {
   drawBoard();
   for (const i of UIArray) { i.draw(); }
   if (GAME.selectedTile) { GAME.selectedTile.draw(); }
-
+  for (const i of GAME.enemies) { i.draw(); }
   GAME.validWords = [];
-  GAME.enemy.draw();
-  GAME.pouch.draw();
-  GAME.playerHealth.draw()
-  console.log(GAME.isPlayerTurn)
+  GAME.player.pouch.draw();
+  GAME.playerHealth.draw();
 };
 animate();

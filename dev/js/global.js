@@ -5,7 +5,14 @@ export const GAME = {
         y: 0,
         lmb: 0
     },
-    playerHand: [],
+    player:{
+        currentHealth: 50,
+        maximumHealth: 100,
+        sprite: null,
+        pouch: [],
+        hand: [],
+    },
+    enemies: [],
     selectedTile: null,
     boardSize: 3,
     tilewidth: 40,
@@ -13,7 +20,6 @@ export const GAME = {
     maximumHand: 5,
     hasInvalidWords: 0,
     points: 0,
-    enemy: null,
     round: 0,
     currentActiveTile: 0,
     isPlayerTurn: 1,
