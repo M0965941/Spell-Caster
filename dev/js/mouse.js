@@ -9,9 +9,8 @@ export let mouse = {
 
 canvas.addEventListener('mouseup', (e) => {
     GAME.mouse.lmb = 0;
-    if(GAME.player.pouch.isMouseOver && GAME.player.pouch.widthrawable == 1){
+    if (GAME.player.pouch.isMouseOver && GAME.player.pouch.widthrawable == 1) {
         GAME.selectedTile = GAME.player.pouch.availableTiles[0]
-        GAME.selectedTile.draw = GAME.player.pouch.availableTiles[0].draw;
         GAME.player.pouch.availableTiles.shift();
     }
 
@@ -19,24 +18,21 @@ canvas.addEventListener('mouseup', (e) => {
         for (const b of GAME.board) {
             if (b.isMouseOver && b.tile == null) {
                 b.tile = GAME.selectedTile;
-                b.tile.draw = GAME.selectedTile.draw;
                 b.checked = { h: 0, v: 0 };
                 GAME.selectedTile = null;
                 break;
             };
-        };       
-
+        };
 
         for (let t in GAME.player.hand) {
             if (GAME.selectedTile && GAME.player.hand[t] == '') {
                 GAME.player.hand[t] = GAME.selectedTile;
-                GAME.player.hand[t].draw = GAME.selectedTile.draw;
                 GAME.selectedTile = null;
                 break;
             };
         };
     };
-    
+
 });
 
 canvas.addEventListener('mousedown', (e) => { GAME.mouse.lmb = 1 });

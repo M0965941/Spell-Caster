@@ -360,10 +360,7 @@ export class PlayerTile extends GameObject {
 
         if (this.isMouseOver && GAME.selectedTile == null && this.Movable) {
             this.color = 'rgba(255, 234, 0, 0.75)';
-            if (GAME.mouse.lmb) {
-                GAME.selectedTile = { ...this };
-                GAME.selectedTile.draw = this.draw;
-            }
+            if (GAME.mouse.lmb) {GAME.selectedTile = this;}
         } else {
             if (this.validWord == 1) {
                 this.color = `rgba(60, 255, 0, ${opacity})`;
