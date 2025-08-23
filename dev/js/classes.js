@@ -1,6 +1,6 @@
 import { canvas, ctx } from "./canvas";
 import { GAME } from "./global";
-import { pointRectCollision, getRandomInt, clamp } from "./helperFunctions";
+import { pointRectCollision, getRandomInt, clamp, shuffleArray } from "./helperFunctions";
 
 export class GameObject {
     constructor(x, y, w, h) {
@@ -88,18 +88,14 @@ export class EnemyHealth extends GameObject {
 };
 
 export class Enemy1 extends EnemyHealth {
-    // Will heal the amount of damage you deal x2 + the max attack
+    // Takes all the available tiles in play shuffles them and distributes them
     constructor(x, y, w, h) {
         super(x, y, w, h);
         this.specialAttackFrequency = 1;
         this.attackRanges = [2, 4]
     };
     draw() {
-        if (this.doSpecialAttack) {
-            this.HP += this.attackRanges[1] + Math.ceil(GAME.lastPointPlayed*2);
-            GAME.lastPointPlayed = 0;
-            this.doSpecialAttack = 0;
-        }
+        if (this.doSpecialAttack) {};
         super.draw();
     };
 };
@@ -161,7 +157,49 @@ export class Enemy1 extends EnemyHealth {
 // };
 
 
+// export class Enemy4 extends EnemyHealth {
+//     // Takes all the available tiles in play shuffles them and distributes them
+//     constructor(x, y, w, h) {
+//         super(x, y, w, h);
+//         this.specialAttackFrequency = 1;
+//         this.attackRanges = [2, 4]
+//     };
+//     draw() {
+//         if (this.doSpecialAttack) {
+//             let arr = [...Array(Math.pow(GAME.boardSize, 2)).keys()];
+//             let targets = shuffleArray(arr);
+//             let tempArray = [];
 
+//             for (let t in GAME.player.hand) {
+//                 if (GAME.player.hand[t] != '') {
+//                     tempArray.unshift(GAME.player.hand[t]);
+//                     GAME.player.hand[t] = ''
+//                 };
+//             };
+
+//             for (const b of GAME.board) {
+//                 if (b.tile != null) {
+//                     tempArray.unshift(b.tile);
+//                     b.tile = null;
+//                 };
+//             };
+
+//             let shuffledTiles = shuffleArray(tempArray);
+//             for (let i = 0; i < shuffledTiles.length; i++) {
+//                 if (i >= Math.pow(GAME.boardSize, 2)) {
+//                     shuffledTiles[i].Movable = 1
+//                     GAME.player.hand[i - Math.pow(GAME.boardSize, 2)] = shuffledTiles[i]
+//                 } else {
+//                     let t = targets[i]
+//                     GAME.board[t].tile = shuffledTiles[i];
+//                     GAME.board[t].tile.Movable = 0;
+//                 };
+//             };
+//             this.doSpecialAttack = 0
+//         };
+//         super.draw();
+//     };
+// };
 
 export class CastButton extends GameObject {
     constructor(x, y, w, h) {
